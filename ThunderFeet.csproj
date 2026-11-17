@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>ThunderFeet</AssemblyName>
+    <RootNamespace>ThunderFeet</RootNamespace>
+    <Version>0.1.0</Version>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=ThunderFeet</PathMap>
+    <DebugType>none</DebugType>
+    <!-- CS8632: ServerSync.cs carries nullable annotations and is compiled in with nullable off. -->
+    <NoWarn>CS8632</NoWarn>
+    <DefaultItemExcludes>$(DefaultItemExcludes);HexiumDist/**;icons/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <!-- Every reference comes from the shared libs-Tools set (Valheim 1.0.21); nothing is copied into the output. -->
+  <PropertyGroup>
+    <LibsTools Condition="'$(LibsTools)' == '' And Exists('$(MSBuildProjectDirectory)/../libs-Tools/assembly_valheim.dll')">$(MSBuildProjectDirectory)/../libs-Tools</LibsTools>
+    <LibsTools Condition="'$(LibsTools)' == ''">$(HOME)/ArchShare/WubarrkCODING/ValheimMods/libs-Tools</LibsTools>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Shared source, compiled in (the house standard): ServerSync makes the server's settings win (ThunderSync.cs). -->
+    <Compile Include="$(LibsTools)/ServerSync.cs" Link="libs-Tools/ServerSync.cs" />
+    <Reference Include="0Harmony"><HintPath>$(LibsTools)/0Harmony.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="BepInEx"><HintPath>$(LibsTools)/BepInEx.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="assembly_valheim"><HintPath>$(LibsTools)/assembly_valheim.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="assembly_utils"><HintPath>$(LibsTools)/assembly_utils.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(LibsTools)/UnityEngine.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(LibsTools)/UnityEngine.CoreModule.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule"><HintPath>$(LibsTools)/UnityEngine.ParticleSystemModule.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.PhysicsModule"><HintPath>$(LibsTools)/UnityEngine.PhysicsModule.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="assembly_guiutils"><HintPath>$(LibsTools)/assembly_guiutils.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="Splatform"><HintPath>$(LibsTools)/Splatform.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(LibsTools)/UnityEngine.UI.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(LibsTools)/Unity.TextMeshPro.dll</HintPath><Private>False</Private></Reference>
+    <!-- Valheim's own netstandard 2.1 facade: ImageConversion (icons/*.png) is built against 2.1, net48 resolves 2.0 by default -> CS1705. -->
+    <Reference Include="netstandard"><HintPath>$(LibsTools)/netstandard.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.ImageConversionModule"><HintPath>$(LibsTools)/UnityEngine.ImageConversionModule.dll</HintPath><Private>False</Private></Reference>
+  </ItemGroup>
+
+  <Target Name="CheckLibsTools" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(LibsTools)/assembly_valheim.dll')" Text="libs-Tools not found at '$(LibsTools)'. Pass -p:LibsTools=..." />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <!-- Stage the DLL (and any finished icons) for the release package. -->
+    <ItemGroup>
+      <IconFiles Include="$(ProjectDir)icons/*.png" />
+    </ItemGroup>
+    <MakeDir Directories="$(ProjectDir)HexiumDist/plugins/ThunderFeet" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ProjectDir)HexiumDist/plugins/ThunderFeet" />
+    <Copy SourceFiles="@(IconFiles)" DestinationFolder="$(ProjectDir)HexiumDist/plugins/ThunderFeet/icons" />
+  </Target>
+
+</Project>

@@ -1,0 +1,9 @@
+{
+    "name": "ThunderFeet",
+    "version_number": "0.1.0",
+    "website_url": "https://ravenirongames.com/",
+    "description": "Your boots read the ground. Paved roads, stone and wood floors, grass, mud, snow and 31 grounds in all each set your sprint and walk speed, shown by a HUD icon and a glowing rune trail. Server-synced and admin-locked.",
+    "dependencies": [
+        "denikson-BepInExPack_Valheim-5.4.2360"
+    ]
+}
