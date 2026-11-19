@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.1
+
+Fixes the grass that flickered to "Rock slope" while running. Same network and save behaviour as 0.1.0. Server and
+players must update together (ServerSync version lock: 0.1.1 on both ends).
+
+### Fixed
+- **Flat grass no longer flickers to Rock slope.** The slope used to come from the player's ground-contact normal, which
+  while running regularly reports a sideways normal (90°) on flat ground. Measured in game on Meadows grass: 40 grass ->
+  Rock slope blips in 16 s of sprinting (20 reached the icon and the speed). The slope now comes from a short ray straight
+  down onto the terrain layer: 0 changes in the same 16 s run.
+
+### Added
+- **`Surface Change Delay`** (`00 General`, server-synced, 0.35 s, 0 to 2): a new ground must be read steadily for this
+  long before the speed and the icon switch to it. The first reading, and leaving the ground (swimming, riding, dying),
+  still apply at once.
+- **In-game autotest** (`tools/thunderfeet-autotest/`, not shipped): drives the real client and measures the speed the
+  game computes and the speed the body moves. It also tests flicker on natural ground and detection on wood, stone and a
+  paved road. `TF_AUTOTEST_PROFILE=<Gale profile>/BepInEx` runs it beside a player's whole mod list.
+
+### Verified
+- The speed multiplier is applied, alone and beside the 48 plugin folders of the New Dawn player profile. At 200% / 50%
+  the body moved ×2.00 / ×0.49 on grass. With 125% on built stone it moved ×1.26 jogging and ×1.25 sprinting.
+  The default grass value is 100% (vanilla), and the other defaults are +5–15%, so the change is small there by design.
+
 ## 0.1.0
 
 First release, for Valheim 1.0.21 (network version 41) and BepInEx 5.4.23. Put it on the server and on every client.

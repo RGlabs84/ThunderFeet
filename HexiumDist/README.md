@@ -2,7 +2,7 @@
 # ⚡ ThunderFeet
 
 ![ᚦ THUNDERFEET · YOUR BOOTS READ THE GROUND](https://img.shields.io/badge/THUNDERFEET-YOUR_BOOTS_READ_THE_GROUND-0f766e?style=for-the-badge&labelColor=1b1b1b&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xIC0xIDEyIDE2Ij48cGF0aCBkPSJNMyAxVjEzTTMgNEw4IDdMMyAxMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN2JiM2FmIiBzdHJva2Utd2lkdGg9IjIuNCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8%2BPC9zdmc%2B)
-![VERSION · 0.1.0](https://img.shields.io/badge/VERSION-0.1.0-8b1e1e?style=for-the-badge&labelColor=1b1b1b)
+![VERSION · 0.1.1](https://img.shields.io/badge/VERSION-0.1.1-8b1e1e?style=for-the-badge&labelColor=1b1b1b)
 ![CLIENT + SERVER · SERVER-LOCKED](https://img.shields.io/badge/CLIENT_%2B_SERVER-SERVER--LOCKED-1f4e79?style=for-the-badge&labelColor=1b1b1b)
 
 | ⚡ **+15%** | 🗺️ **31** | 🔒 **Locked** | ✨ **Runes** |
@@ -19,19 +19,17 @@ A rune-icon names the ground under you, and every footstep strikes a spark of ru
 
 ---
 
-![ᛞ NEW IN 0.1.0 · FIRST STEPS](https://img.shields.io/badge/NEW_IN_0.1.0-FIRST_STEPS-8b1e1e?style=for-the-badge&labelColor=1b1b1b&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xIC0xIDEyIDE2Ij48cGF0aCBkPSJNMSAyVjEyTDkgMlYxMkwxIDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2JmODM4MyIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg%3D%3D)
+![ᛞ NEW IN 0.1.1 · STEADY FOOTING](https://img.shields.io/badge/NEW_IN_0.1.1-STEADY_FOOTING-8b1e1e?style=for-the-badge&labelColor=1b1b1b&logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xIC0xIDEyIDE2Ij48cGF0aCBkPSJNMSAyVjEyTDkgMlYxMkwxIDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2JmODM4MyIgc3Ryb2tlLXdpZHRoPSIyLjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg%3D%3D)
 
-**ThunderFeet arrives: 31 kinds of ground, each with its own pace.**
+**The ground holds still. Grass stays grass at a full sprint.**
 
 | You | It |
 |---|---|
-| **sprint down a paved road** | the fastest ground in the land |
-| **cross a stone or wooden floor** | every building material has its own speed |
-| **wade into mud or snow** | it drags at your boots |
-| **look at your status bar** | a rune-icon names the ground under you |
-| **look behind you** | a trail of runes, coloured by the ground |
+| **sprint across a meadow** | the icon and your speed stay on grass, with no stray flash of rock |
+| **step from one ground to another** | the change settles in a blink, so a stray misread never shows |
+| **are the server admin** | `Surface Change Delay` sets how long new ground must hold, from instant to two seconds |
 
-🔹 **Server-locked speeds** · 🔹 **Live edits, no restart** · 🔹 **Rune trail on every player**
+🔹 **Tested in game:** every speed setting is measured on the real client, beside a full 48-mod player profile
 
 ---
 
@@ -261,6 +259,7 @@ Turn on `Log Surface Changes` and every change of ground is written to the BepIn
 | 00 General | `Enabled` | the master switch; off is vanilla speed everywhere |
 | 00 General | `Rock Slope Angle` | how steep unpainted ground must be to count as rock (35°) |
 | 00 General | `Paint Threshold` | how strongly ground must be painted to count as road, path or farmland (0.5) |
+| 00 General | `Surface Change Delay` | how long new ground must hold before the speed and icon switch, so a misread never flickers (0.35 s) |
 | 00 General | `Rune Footsteps Allowed` | lets players see rune footsteps at all |
 | 01 – 31, one per ground | `Sprint Speed %` | sprint speed on that ground, in percent: 100 is vanilla, 115 is 15% faster |
 | 01 – 31, one per ground | `Jog Walk Speed %` | jog, walk and sneak speed on that ground, in percent |

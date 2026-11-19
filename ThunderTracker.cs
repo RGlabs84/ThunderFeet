@@ -21,12 +21,14 @@ namespace ThunderFeet
             if (Time.time < s_nextCheck) return;
             s_nextCheck = Time.time + Interval;
 
-            Surface surface = Current;
+            Surface detected = Current;
             if (player.IsDead() || player.IsSwimming() || player.InDebugFlyMode() || (player.IsAttached() && !player.IsAttachedToShip()))
-                surface = Surface.None;
+                detected = Surface.None;
             else if (player.IsOnGround() || player.InLiquid())
-                surface = SurfaceDetector.Detect(player);
+                detected = SurfaceDetector.Detect(player);
             // airborne (jumping, falling): keep the last ground, so a jump along a road does not lose the road's speed mid-air
+
+            Surface surface = Settle(detected);
 
             if (surface != Current && ThunderConfig.LogSurfaceChanges.Value)
                 Plugin.Log.LogInfo($"[surface] {Current} -> {surface} at {player.transform.position}");
@@ -35,6 +37,34 @@ namespace ThunderFeet
             SprintMul = ThunderConfig.SprintMultiplier(surface);
             JogMul = ThunderConfig.JogMultiplier(surface);
             UpdateIcon(player);
+        }
+
+        private static Surface s_candidate = Surface.None;
+        private static float s_candidateSince;
+
+        /// <summary>
+        /// The buffer: a new ground must be read steadily for <c>Surface Change Delay</c> seconds before the icon and the speed follow
+        /// it, so a one-frame misread never shows. The first reading (from None) and leaving the ground (to None: swimming, riding,
+        /// dying) apply at once.
+        /// </summary>
+        private static Surface Settle(Surface detected)
+        {
+            if (detected == Current)
+            {
+                s_candidate = detected;
+                return Current;
+            }
+            if (Current == Surface.None || detected == Surface.None)
+            {
+                s_candidate = detected;
+                return detected;
+            }
+            if (detected != s_candidate)
+            {
+                s_candidate = detected;
+                s_candidateSince = Time.time;
+            }
+            return Time.time - s_candidateSince >= ThunderConfig.SurfaceChangeDelay.Value ? detected : Current;
         }
 
         private static void UpdateIcon(Player player)

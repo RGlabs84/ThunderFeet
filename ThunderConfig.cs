@@ -30,6 +30,7 @@ namespace ThunderFeet
         internal static ConfigEntry<bool> Enabled;
         internal static ConfigEntry<float> RockSlopeAngle;
         internal static ConfigEntry<float> PaintThreshold;
+        internal static ConfigEntry<float> SurfaceChangeDelay;
 
         internal static ConfigEntry<bool> RunesAllowed;
 
@@ -57,6 +58,9 @@ namespace ThunderFeet
                 new ConfigDescription("SERVER: how strongly terrain must be painted (paved / dirt / cultivated) to count. 0.5 matches the game's own 'is cleared' test; lower catches the soft edges of roads.",
                     new AcceptableValueRange<float>(0.05f, 0.95f)));
 
+            SurfaceChangeDelay = cfg.Bind(GeneralSection, "Surface Change Delay", 0.35f,
+                new ConfigDescription("SERVER: seconds a new ground must be read steadily before the speed and the icon switch to it, so a momentary misread never shows. 0 = instant.",
+                    new AcceptableValueRange<float>(0f, 2f)));
             RunesAllowed = cfg.Bind(GeneralSection, "Rune Footsteps Allowed", true,
                 "SERVER: allow the glowing rune burst on footsteps. Off = nobody sees runes, whatever their own setting.");
 

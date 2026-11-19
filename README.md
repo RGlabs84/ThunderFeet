@@ -18,7 +18,8 @@ separate settings.
 
 - Each surface has its own section with `Sprint Speed %` and `Jog Walk Speed %`. 100 is vanilla, 115 is 1.15× (+15%), 80 is 0.8×.
   The allowed range is 10 to 300.
-- `00 General`: `Lock Configuration`, `Enabled`, `Rock Slope Angle`, `Paint Threshold`.
+- `00 General`: `Lock Configuration`, `Enabled`, `Rock Slope Angle`, `Paint Threshold`, `Surface Change Delay` (how long new ground
+  must be read steadily before the speed and icon switch; 0.35 s).
 - `00 Display (local)`: `Show Surface Icon` (Always / OnlyWhenSpeedChanges / Never), `Icon Shows Percent`, `Log Surface Changes`.
 
 ### Server authority (ServerSync)
@@ -70,6 +71,28 @@ Settings:
 - `00 General / Rune Footsteps Allowed` (server) can turn the runes off for everybody.
 - `00 Display (local) / Rune Footsteps` is each player's own: Everyone, OnlyMine or Off.
 - `00 Display (local) / Rune Intensity` is each player's own, from 0.25 to 3.
+
+## Autotest (in game, unattended)
+
+```bash
+~/valheim-testbed/heavy.sh 4G thunderfeet-autotest dotnet build tools/thunderfeet-autotest/ThunderFeetAutoTest.csproj -c Release
+~/valheim-testbed/heavy.sh 10G thunderfeet-client tools/thunderfeet-autotest/run-autotest.sh
+TF_AUTOTEST_PROFILE="$HOME/.local/share/com.kesomannen.gale/valheim/profiles/<profile>/BepInEx" \
+  ~/valheim-testbed/heavy.sh 10G thunderfeet-client tools/thunderfeet-autotest/run-autotest.sh   # beside a player's whole mod list
+```
+
+The Steam client starts in a throwaway HOME and profile (your saves and prefs are never touched), one client at a time, about two
+minutes. Phases:
+
+- **A:** the plugin loads and its patches are in place.
+- **S:** jog and sprint with ThunderFeet off, then every ground at 200% and at 50%. Each run reads both the game's computed
+  speed and the measured body speed.
+- **F:** flicker while sprinting over natural ground. Every raw change is logged with its collider, slope and paint in
+  `flicker.log`.
+- **P:** the loaded percentages on a 28 m stone-floor strip, against vanilla.
+- **D:** detection on a wood floor, a stone floor and a hoe-paved road.
+
+It ends with `VERDICT: PASS / FAIL / NOT ASSESSED`, and results are in `~/valheim-testbed/autotest-thunderfeet/latest/`.
 
 ## Build and release
 

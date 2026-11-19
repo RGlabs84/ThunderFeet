@@ -22,19 +22,17 @@ A rune-icon names the ground under you, and every footstep strikes a spark of ru
 
 ---
 
-{{rune ᛞ | NEW IN {{version}} | FIRST STEPS | 8b1e1e}}
+{{rune ᛞ | NEW IN {{version}} | STEADY FOOTING | 8b1e1e}}
 
-**ThunderFeet arrives: 31 kinds of ground, each with its own pace.**
+**The ground holds still. Grass stays grass at a full sprint.**
 
 | You | It |
 |---|---|
-| **sprint down a paved road** | the fastest ground in the land |
-| **cross a stone or wooden floor** | every building material has its own speed |
-| **wade into mud or snow** | it drags at your boots |
-| **look at your status bar** | a rune-icon names the ground under you |
-| **look behind you** | a trail of runes, coloured by the ground |
+| **sprint across a meadow** | the icon and your speed stay on grass, with no stray flash of rock |
+| **step from one ground to another** | the change settles in a blink, so a stray misread never shows |
+| **are the server admin** | {{key Surface Change Delay}} sets how long new ground must hold, from instant to two seconds |
 
-🔹 **Server-locked speeds** · 🔹 **Live edits, no restart** · 🔹 **Rune trail on every player**
+🔹 **Tested in game:** every speed setting is measured on the real client, beside a full 48-mod player profile
 
 ---
 
@@ -216,6 +214,7 @@ Turn on {{key Log Surface Changes}} and every change of ground is written to the
 | 00 General | {{key Enabled}} | the master switch; off is vanilla speed everywhere |
 | 00 General | {{key Rock Slope Angle}} | how steep unpainted ground must be to count as rock (35°) |
 | 00 General | {{key Paint Threshold}} | how strongly ground must be painted to count as road, path or farmland (0.5) |
+| 00 General | {{key Surface Change Delay}} | how long new ground must hold before the speed and icon switch, so a misread never flickers (0.35 s) |
 | 00 General | {{key Rune Footsteps Allowed}} | lets players see rune footsteps at all |
 | 01 – 31, one per ground | {{key Sprint Speed %}} | sprint speed on that ground, in percent: 100 is vanilla, 115 is 15% faster |
 | 01 – 31, one per ground | {{key Jog Walk Speed %}} | jog, walk and sneak speed on that ground, in percent |

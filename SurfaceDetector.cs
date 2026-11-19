@@ -27,12 +27,29 @@ namespace ThunderFeet
 
             Heightmap hm = ground.GetComponent<Heightmap>();
             if (hm != null)
-                return Terrain(hm, player.transform.position, player.GetLastGroundNormal());
+            {
+                Vector3 pos = player.transform.position;
+                return Terrain(hm, pos, TerrainNormal(pos, player.GetLastGroundNormal()));
+            }
 
             return Cached(ground, player.InInterior());
         }
 
         private static int s_groundMask = -1;
+        private static int s_terrainMask = -1;
+
+        /// <summary>
+        /// The slope of the terrain itself under a point: a short ray straight down onto the terrain layer. The player's ground-contact
+        /// normal is NOT used for the slope: while running it regularly reports a sideways normal (90° on flat Meadows grass, measured
+        /// by the autotest 2026-11-19: 40 grass -> RockSlope blips in 16 s), which turned flat grass into "Rock slope" for a frame.
+        /// </summary>
+        private static Vector3 TerrainNormal(Vector3 pos, Vector3 fallback)
+        {
+            if (s_terrainMask == -1) s_terrainMask = LayerMask.GetMask("terrain");
+            if (Physics.Raycast(pos + Vector3.up * 1f, Vector3.down, out RaycastHit hit, 3f, s_terrainMask, QueryTriggerInteraction.Ignore))
+                return hit.normal;
+            return fallback.y > 0.05f ? fallback : Vector3.up;
+        }
 
         /// <summary>
         /// The surface under a world point (a footstep of ANY player, including remote ones, whose ground contact this client does not
